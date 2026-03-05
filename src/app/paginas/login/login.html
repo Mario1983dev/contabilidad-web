@@ -1,1 +1,122 @@
-<p>login works!</p>
+<div class="erp-login">
+  <!-- Lado izquierdo (marca) -->
+  <aside class="brand">
+    <div class="brand-inner">
+      <div class="logo">C</div>
+
+      <div class="brand-text">
+        <div class="title">Contabilidad</div>
+        <div class="tagline">ERP • Multiempresa • Chile</div>
+      </div>
+
+      <div class="hint">
+        Accede con tu usuario de oficina contable.<br />
+        Si tienes problemas, contacta al administrador.
+      </div>
+
+      <div class="footer">
+        © {{ year }} Contabilidad ERP
+      </div>
+    </div>
+  </aside>
+
+  <!-- Lado derecho (form) -->
+  <main class="panel">
+    <div class="panel-inner">
+      <h2>Iniciar sesión</h2>
+      <p class="sub">Ingresa tus credenciales para continuar.</p>
+
+      <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate>
+
+        <!-- Usuario -->
+        <div class="form-row">
+          <label>Usuario</label>
+          <input
+            type="text"
+            name="username"
+            [(ngModel)]="username"
+            required
+            #user="ngModel"
+            [class.invalid]="user.invalid && user.touched"
+            placeholder="Ej: admin"
+            autocomplete="username"
+          />
+          <small *ngIf="user.invalid && user.touched">
+            El usuario es obligatorio.
+          </small>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-row">
+          <label>Contraseña</label>
+
+          <div class="password-wrap">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="password"
+              required
+              #pass="ngModel"
+              [class.invalid]="pass.invalid && pass.touched"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+
+            <button
+              type="button"
+              class="eye"
+              (click)="showPassword = !showPassword"
+            >
+              {{ showPassword ? 'Ocultar' : 'Ver' }}
+            </button>
+          </div>
+
+          <small *ngIf="pass.invalid && pass.touched">
+            La contraseña es obligatoria.
+          </small>
+        </div>
+
+        <!-- Acciones -->
+        <div class="actions">
+          <label class="remember">
+            <input
+              type="checkbox"
+              [(ngModel)]="remember"
+              name="remember"
+            />
+            Recordarme
+          </label>
+
+          <a
+            class="link"
+            href="#"
+            (click)="$event.preventDefault(); forgot()"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+
+        <!-- Botón principal -->
+        <button
+          class="primary"
+          type="submit"
+          [disabled]="loading || form.invalid"
+        >
+          <span *ngIf="loading" class="spinner"></span>
+          {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
+        </button>
+
+        <!-- Error -->
+        <div class="error" *ngIf="error">
+          <strong>Error:</strong> {{ error }}
+        </div>
+
+        <!-- Status -->
+        <div class="status" *ngIf="status">
+          {{ status }}
+        </div>
+
+      </form>
+    </div>
+  </main>
+</div>
